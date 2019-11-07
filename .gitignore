@@ -34,3 +34,6 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Move Game/.idea
+Move Game/.idea
+Move Game/ProjectSettings/EditorBuildSettings.asset
