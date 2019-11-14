@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class GameSimulator : MonoBehaviour
+public class AutoPlayer : MonoBehaviour
 {
 	[SerializeField]
 	private List<TeamButton> buttons = default;
@@ -16,8 +14,7 @@ public class GameSimulator : MonoBehaviour
 
 	private float _Interval;
 	private float _PassedTime;
-
-	private bool pressed;
+	private bool _Pressed;
 
 	private void Start()
 	{
@@ -29,17 +26,22 @@ public class GameSimulator : MonoBehaviour
 		if (_PassedTime < _Interval)
 		{
 			_PassedTime += Time.deltaTime;
-			if (!pressed)
+			if (!_Pressed)
 			{
 				buttons[Random.Range(0, buttons.Count)].Hit(Vector3.zero);
-				pressed = true;
+				_Pressed = true;
 			}
 		}
 		else
 		{
 			_Interval   = Random.Range(minPressInterval, maxPressInterval);
 			_PassedTime = 0;
-			pressed     = false;
+			_Pressed    = false;
 		}
+	}
+
+	public void AddPlayer(ButtonWithStagedImage player)
+	{
+		buttons.Add(player.GetButton());
 	}
 }

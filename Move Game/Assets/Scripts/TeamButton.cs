@@ -6,9 +6,6 @@ using UnityEngine.UI;
 public class TeamButton : MonoBehaviour, I_SmartwallInteractable
 {
 	[SerializeField]
-	private Color color = default;
-
-	[SerializeField]
 	private Image image = default;
 
 	[SerializeField]
@@ -17,14 +14,14 @@ public class TeamButton : MonoBehaviour, I_SmartwallInteractable
 	[SerializeField]
 	private UnityEvent hitEvent = default;
 
+	public void SetColor(Color color)
+	{
+		image.color = color;
+	}
+
 	public void SetText(string value)
 	{
 		text.text = value;
-	}
-
-	private void Start()
-	{
-		image.color = color;
 	}
 
 	public void Hit(Vector3 hitPosition)
