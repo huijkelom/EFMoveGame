@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
 	[Range(1, 4)]
 	private int playerCount = default;
 
-	private List<ButtonWithStagedImage> teams = new List<ButtonWithStagedImage>();
+	private List<TeamUI> teams = new List<TeamUI>();
 
 	[Header("References")]
 	[SerializeField]
@@ -20,16 +21,21 @@ public class GameManager : MonoBehaviour
 	private RectTransform teamContainer = default;
 
 	[SerializeField]
-	private ButtonWithStagedImage teamPrefab = default;
+	private TeamUI teamPrefab = default;
+
+	[SerializeField]
+	private GameTimer timer = default;
 
 	private void Start()
 	{
 		for (int i = 0; i < playerCount; i++)
 		{
-			ButtonWithStagedImage player = Instantiate(teamPrefab, teamContainer);
+			TeamUI player = Instantiate(teamPrefab, teamContainer);
 			player.Init(i);
 			player.doneEvent.AddListener(TeamWon);
 			autoPlayer.AddPlayer(player);
+
+			teams.Add(player);
 		}
 
 		if (autoPlay) autoPlayer.gameObject.SetActive(true);
@@ -37,6 +43,16 @@ public class GameManager : MonoBehaviour
 
 	private void TeamWon(int winner)
 	{
-		foreach (ButtonWithStagedImage team in teams) team.GetButton().gameObject.SetActive(false);
+		timer.PauseTimer(true);
+		foreach (TeamUI team in teams) team.GetButton().gameObject.SetActive(false);
+
+		ScoreScreenController.MoveToScores(teams.Select(x => x.GetStage()).ToList());
+
+		Debug.Log($"Team {winner} won");
+	}
+
+	public void GameOver()
+	{
+		TeamWon(teams.OrderByDescending(x => x.GetStage()).First().teamNumber);
 	}
 }

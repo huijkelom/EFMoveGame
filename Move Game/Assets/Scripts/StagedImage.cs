@@ -14,8 +14,9 @@ public class StagedImage : MonoBehaviour
 	[SerializeField]
 	private int stages = 10;
 
-	public TeamButton button;
+	public TeamUI teamUi;
 
+	public int GetStage() => currentStage;
 
 	private Sprite GetStageImage(int stage) =>
 		Images[Mathf.FloorToInt(((float) stage).Map(0, stages, 0, Images.Count))];
@@ -25,11 +26,11 @@ public class StagedImage : MonoBehaviour
 		if (currentStage < stages)
 		{
 			currentStage++;
-			button.SetText(currentStage.ToString());
+			teamUi.SetText(currentStage.ToString());
 
 			if (currentStage >= stages)
 			{
-				button.Win();
+				teamUi.Win();
 				image.sprite = Images[Images.Count - 1];
 				return;
 			}

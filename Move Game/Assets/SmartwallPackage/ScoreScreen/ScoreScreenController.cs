@@ -27,7 +27,7 @@ public class ScoreScreenController : MonoBehaviour
     public static int Highscore { get { return _Highscore; } }
     private static int _Highscore = 0;
 
-    public static int IndexOfSceneToMoveTo = 1;
+    public static int IndexOfSceneToMoveTo = 2;
     [HideInInspector]
     public float BarRiseAnimationTime = 0.7f;
     public GameObject P_Scoring;

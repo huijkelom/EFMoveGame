@@ -40,7 +40,7 @@ public class AutoPlayer : MonoBehaviour
 		}
 	}
 
-	public void AddPlayer(ButtonWithStagedImage player)
+	public void AddPlayer(TeamUI player)
 	{
 		buttons.Add(player.GetButton());
 	}

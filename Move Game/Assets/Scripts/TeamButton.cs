@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -14,9 +15,10 @@ public class TeamButton : MonoBehaviour, I_SmartwallInteractable
 	[SerializeField]
 	private UnityEvent hitEvent = default;
 
-	public void SetColor(Color color)
+	public void Init(TeamUI teamUi, Color color)
 	{
 		image.color = color;
+		hitEvent.AddListener(teamUi.Hit);
 	}
 
 	public void SetText(string value)
@@ -27,10 +29,5 @@ public class TeamButton : MonoBehaviour, I_SmartwallInteractable
 	public void Hit(Vector3 hitPosition)
 	{
 		hitEvent.Invoke();
-	}
-
-	public void Win()
-	{
-		Debug.Log("Woo");
 	}
 }

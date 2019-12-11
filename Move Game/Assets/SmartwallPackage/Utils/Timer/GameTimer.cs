@@ -1,11 +1,12 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class GameTimer : MonoBehaviour
 {
-    public Text LabelOfTimer;
+    public TextMeshProUGUI LabelOfTimer;
     public Image Gage;
     /// <summary>
     /// Time limit can be overwritten by the setting file if it contains a setting from Time.
@@ -41,7 +42,7 @@ public class GameTimer : MonoBehaviour
         //Check if a Text class has been linked
         if (LabelOfTimer == null)
         {
-            LabelOfTimer = gameObject.GetComponent<Text>(); //Try to find a Text class
+            LabelOfTimer = gameObject.GetComponent<TextMeshProUGUI>(); //Try to find a Text class
             if (LabelOfTimer == null)
             {
                 Debug.LogWarning("L_Text | Start | Text changer has no label to change and can't find one on its gameobject: " + gameObject.name);
@@ -66,6 +67,8 @@ public class GameTimer : MonoBehaviour
         int minutes = (int)(TimeLimit / 60);
         int seconds = (int)(TimeLimit % 60);
         LabelOfTimer.text = minutes.ToString("D2") + ":" + seconds.ToString("D2");
+        
+        StartTimer();
     }
 
     IEnumerator RunTimer()

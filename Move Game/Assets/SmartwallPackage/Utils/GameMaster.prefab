@@ -135,4 +135,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a656c368048e919418ffdf26ef879d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SettingToMake: []
+  SettingToMake:
+  - Label: Players
+    Value: 4
+    PossibleValues:
+    - 1
+    - 2
+    - 3
+    - 4
+    Default: 4
+  - Label: Playtime
+    Value: 120
+    PossibleValues:
+    - 120
+    - 180
+    - 240
+    - 300
+    Default: 4
+  - Label: Reset HS
+    Value: Yes
+    PossibleValues:
+    - Yes
+    - No
+    Default: Yes

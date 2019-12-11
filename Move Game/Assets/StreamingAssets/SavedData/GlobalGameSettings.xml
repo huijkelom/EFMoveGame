@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<ArrayOfGlobalGameSetting xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <GlobalGameSetting>
+    <Label>Players</Label>
+    <Value>4</Value>
+    <PossibleValues>
+      <string>1</string>
+      <string>2</string>
+      <string>3</string>
+      <string>4</string>
+    </PossibleValues>
+    <Default>4</Default>
+  </GlobalGameSetting>
+  <GlobalGameSetting>
+    <Label>Playtime</Label>
+    <Value>120</Value>
+    <PossibleValues>
+      <string>120</string>
+      <string>180</string>
+      <string>240</string>
+      <string>300</string>
+    </PossibleValues>
+    <Default>4</Default>
+  </GlobalGameSetting>
+  <GlobalGameSetting>
+    <Label>Reset HS</Label>
+    <Value>Yes</Value>
+    <PossibleValues>
+      <string>Yes</string>
+      <string>No</string>
+    </PossibleValues>
+    <Default>Yes</Default>
+  </GlobalGameSetting>
+</ArrayOfGlobalGameSetting>
