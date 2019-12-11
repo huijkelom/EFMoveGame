@@ -100,7 +100,7 @@ MonoBehaviour:
   InputType: 0
   AccountForBallSize: 0
   AverageAllInputsToOnePoint: 0
-  UninteractableAreaSize: 7
+  UninteractableAreaSize: 20
 --- !u!114 &1292733122895889457
 MonoBehaviour:
   m_ObjectHideFlags: 0
