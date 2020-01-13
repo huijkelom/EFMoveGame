@@ -12,8 +12,7 @@ public class TeamButton : MonoBehaviour, I_SmartwallInteractable
 	[SerializeField]
 	private TextMeshProUGUI text = default;
 
-	[SerializeField]
-	private UnityEvent hitEvent = default;
+	private UnityEvent hitEvent = new UnityEvent();
 
 	public void Init(TeamUI teamUi, Color color)
 	{

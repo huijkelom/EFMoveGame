@@ -1,22 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
 	[SerializeField]
-	private bool autoPlay = default;
-	[Space]
-	[SerializeField]
 	[Range(1, 4)]
 	private int playerCount = default;
+
+	[SerializeField]
+	private float gameDoneTime = .5f;
 
 	private List<TeamUI> teams = new List<TeamUI>();
 
 	[Header("References")]
-	[SerializeField]
-	private AutoPlayer autoPlayer = default;
-
 	[SerializeField]
 	private RectTransform teamContainer = default;
 
@@ -26,19 +24,25 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private GameTimer timer = default;
 
+	[SerializeField]
+	private Transform charContainer;
+
 	private void Start()
 	{
 		for (int i = 0; i < playerCount; i++)
 		{
 			TeamUI player = Instantiate(teamPrefab, teamContainer);
-			player.Init(i);
+			player.Init(i, charContainer.GetChild(i).GetComponent<Animator>());
 			player.doneEvent.AddListener(TeamWon);
-			autoPlayer.AddPlayer(player);
 
 			teams.Add(player);
 		}
 
-		if (autoPlay) autoPlayer.gameObject.SetActive(true);
+		for (int i = 0; i < charContainer.childCount; i++)
+		{
+			charContainer.GetChild(i).GetComponent<CharacterColor>()
+						 .SetColor(PlayerColourContainer.GetPlayerColour(i + 1));
+		}
 	}
 
 	private void TeamWon(int winner)
@@ -46,13 +50,19 @@ public class GameManager : MonoBehaviour
 		timer.PauseTimer(true);
 		foreach (TeamUI team in teams) team.GetButton().gameObject.SetActive(false);
 
-		ScoreScreenController.MoveToScores(teams.Select(x => x.GetStage()).ToList());
+		StartCoroutine(delayedSceneMove(teams.Select(x => (int) x.progress).ToList()));
 
 		Debug.Log($"Team {winner} won");
 	}
 
+	private IEnumerator delayedSceneMove(List<int> scores)
+	{
+		yield return new WaitForSeconds(gameDoneTime);
+		ScoreScreenController.MoveToScores(scores);
+	}
+
 	public void GameOver()
 	{
-		TeamWon(teams.OrderByDescending(x => x.GetStage()).First().teamNumber);
+		TeamWon(teams.OrderByDescending(x => (int) x.progress).First().teamNumber);
 	}
 }
