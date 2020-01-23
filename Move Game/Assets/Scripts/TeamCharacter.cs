@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TeamUI : MonoBehaviour
+public class TeamCharacter : MonoBehaviour
 {
 	private int _Team;
 	private Color _Color;
@@ -27,13 +27,16 @@ public class TeamUI : MonoBehaviour
 	public int teamNumber => _Team;
 	public TeamButton GetButton() => button;
 
+	private Coroutine runningRoutine = null;
+
 	public void Hit()
 	{
 		hitEvent.Invoke();
 
 		steps++;
 		Debug.Log(progress);
-		StartCoroutine(MoveCharacter(.5f));
+		if (runningRoutine != null) StopCoroutine(runningRoutine);
+		runningRoutine = StartCoroutine(MoveCharacter(.5f));
 	}
 
 	public IEnumerator MoveCharacter(float duration)

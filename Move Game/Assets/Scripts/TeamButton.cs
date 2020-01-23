@@ -14,19 +14,12 @@ public class TeamButton : MonoBehaviour, I_SmartwallInteractable
 
 	private UnityEvent hitEvent = new UnityEvent();
 
-	public void Init(TeamUI teamUi, Color color)
+	public void Init(TeamCharacter teamCharacter, Color color)
 	{
 		image.color = color;
-		hitEvent.AddListener(teamUi.Hit);
+		hitEvent.AddListener(teamCharacter.Hit);
 	}
 
-	public void SetText(string value)
-	{
-		text.text = value;
-	}
-
-	public void Hit(Vector3 hitPosition)
-	{
-		hitEvent.Invoke();
-	}
+	public void SetText(string value) => text.text = value;
+	public void Hit(Vector3 hitPosition) => hitEvent.Invoke();
 }

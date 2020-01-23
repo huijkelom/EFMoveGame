@@ -12,26 +12,26 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private float gameDoneTime = .5f;
 
-	private List<TeamUI> teams = new List<TeamUI>();
+	private List<TeamCharacter> teams = new List<TeamCharacter>();
 
 	[Header("References")]
 	[SerializeField]
 	private RectTransform teamContainer = default;
 
 	[SerializeField]
-	private TeamUI teamPrefab = default;
+	private TeamCharacter teamPrefab = default;
 
 	[SerializeField]
 	private GameTimer timer = default;
 
 	[SerializeField]
-	private Transform charContainer;
+	private Transform charContainer = default;
 
 	private void Start()
 	{
 		for (int i = 0; i < playerCount; i++)
 		{
-			TeamUI player = Instantiate(teamPrefab, teamContainer);
+			TeamCharacter player = Instantiate(teamPrefab, teamContainer);
 			player.Init(i, charContainer.GetChild(i).GetComponent<Animator>());
 			player.doneEvent.AddListener(TeamWon);
 
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 	private void TeamWon(int winner)
 	{
 		timer.PauseTimer(true);
-		foreach (TeamUI team in teams) team.GetButton().gameObject.SetActive(false);
+		foreach (TeamCharacter team in teams) team.GetButton().gameObject.SetActive(false);
 
 		StartCoroutine(delayedSceneMove(teams.Select(x => (int) x.progress).ToList()));
 
@@ -61,8 +61,5 @@ public class GameManager : MonoBehaviour
 		ScoreScreenController.MoveToScores(scores);
 	}
 
-	public void GameOver()
-	{
-		TeamWon(teams.OrderByDescending(x => (int) x.progress).First().teamNumber);
-	}
+	public void GameOver() => TeamWon(teams.OrderByDescending(x => (int) x.progress).First().teamNumber);
 }
