@@ -5,9 +5,13 @@ public class SceneSwitcher : MonoBehaviour
 {
 	[SerializeField]
 	private string sceneName = default;
+	[SerializeField]
+	private bool autoSwitch = true;
 
 	private void Start()
 	{
-		SceneManager.LoadScene(sceneName);
+		if (autoSwitch) SceneManager.LoadScene(sceneName);
 	}
+
+	public void SwitchScene() => SceneManager.LoadScene(sceneName);
 }

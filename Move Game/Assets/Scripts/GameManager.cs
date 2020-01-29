@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,33 +7,46 @@ public class GameManager : MonoBehaviour
 	[Range(1, 4)]
 	private int playerCount = default;
 
-	[SerializeField]
-	private float gameDoneTime = .5f;
-
 	private List<TeamCharacter> teams = new List<TeamCharacter>();
 
 	[Header("References")]
 	[SerializeField]
-	private RectTransform teamContainer = default;
-
-	[SerializeField]
-	private TeamCharacter teamPrefab = default;
-
+	private RectTransform replayButton = default;
 	[SerializeField]
 	private GameTimer timer = default;
-
+	[Space]
+	[SerializeField]
+	private RectTransform teamContainer = default;
 	[SerializeField]
 	private Transform charContainer = default;
+	[SerializeField]
+	private Transform flagContainer = default;
+	[Space]
+	[SerializeField]
+	private TeamCharacter teamPrefab = default;
+	[SerializeField]
+	private AudioSource audioSource = default;
+
+	private int _CurrentPlace = 0;
 
 	private void Start()
 	{
+		playerCount = int.Parse(GlobalGameSettings.GetSetting("Players"));
+		
 		for (int i = 0; i < playerCount; i++)
 		{
 			TeamCharacter player = Instantiate(teamPrefab, teamContainer);
-			player.Init(i, charContainer.GetChild(i).GetComponent<Animator>());
-			player.doneEvent.AddListener(TeamWon);
+			player.Init(i, charContainer.GetChild(i).GetComponent<Animator>(),
+						flagContainer.GetChild(i).GetComponent<Flag>());
+
+			player.doneEvent.AddListener(TeamFinished);
 
 			teams.Add(player);
+		}
+
+		for (int i = playerCount; i < 4; i++)
+		{
+			Destroy(charContainer.GetChild(i).gameObject);
 		}
 
 		for (int i = 0; i < charContainer.childCount; i++)
@@ -45,21 +56,17 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	private void TeamWon(int winner)
+	private void TeamFinished(TeamCharacter winner)
 	{
-		timer.PauseTimer(true);
-		foreach (TeamCharacter team in teams) team.GetButton().gameObject.SetActive(false);
+		_CurrentPlace++;
+		winner.Flag.Init(_CurrentPlace, timer.TimePassed);
+		winner.GetButton().gameObject.SetActive(false);
+		audioSource.Play();
 
-		StartCoroutine(delayedSceneMove(teams.Select(x => (int) x.progress).ToList()));
-
-		Debug.Log($"Team {winner} won");
+		if (_CurrentPlace >= playerCount)
+		{
+			timer.PauseTimer(true);
+			replayButton.gameObject.SetActive(true);
+		}
 	}
-
-	private IEnumerator delayedSceneMove(List<int> scores)
-	{
-		yield return new WaitForSeconds(gameDoneTime);
-		ScoreScreenController.MoveToScores(scores);
-	}
-
-	public void GameOver() => TeamWon(teams.OrderByDescending(x => (int) x.progress).First().teamNumber);
 }

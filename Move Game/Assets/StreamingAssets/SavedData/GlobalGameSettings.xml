@@ -2,7 +2,7 @@
 <ArrayOfGlobalGameSetting xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <GlobalGameSetting>
     <Label>Players</Label>
-    <Value>4</Value>
+    <Value>2</Value>
     <PossibleValues>
       <string>1</string>
       <string>2</string>
@@ -12,23 +12,55 @@
     <Default>4</Default>
   </GlobalGameSetting>
   <GlobalGameSetting>
-    <Label>Playtime</Label>
-    <Value>120</Value>
-    <PossibleValues>
-      <string>120</string>
-      <string>180</string>
-      <string>240</string>
-      <string>300</string>
-    </PossibleValues>
-    <Default>4</Default>
-  </GlobalGameSetting>
-  <GlobalGameSetting>
-    <Label>Reset HS</Label>
+    <Label>Use Time</Label>
     <Value>Yes</Value>
     <PossibleValues>
       <string>Yes</string>
       <string>No</string>
     </PossibleValues>
     <Default>Yes</Default>
+  </GlobalGameSetting>
+  <GlobalGameSetting>
+    <Label>Minutes</Label>
+    <Value>2</Value>
+    <PossibleValues>
+      <string>0</string>
+      <string>1</string>
+      <string>2</string>
+      <string>3</string>
+      <string>4</string>
+      <string>5</string>
+      <string>6</string>
+      <string>7</string>
+    </PossibleValues>
+    <Default>1</Default>
+  </GlobalGameSetting>
+  <GlobalGameSetting>
+    <Label>Seconds</Label>
+    <Value>20</Value>
+    <PossibleValues>
+      <string>0</string>
+      <string>10</string>
+      <string>20</string>
+      <string>30</string>
+      <string>40</string>
+      <string>50</string>
+    </PossibleValues>
+    <Default>0</Default>
+  </GlobalGameSetting>
+  <GlobalGameSetting>
+    <Label>Steps</Label>
+    <Value>8</Value>
+    <PossibleValues>
+      <string>1</string>
+      <string>2</string>
+      <string>3</string>
+      <string>4</string>
+      <string>5</string>
+      <string>6</string>
+      <string>7</string>
+      <string>8</string>
+    </PossibleValues>
+    <Default>8</Default>
   </GlobalGameSetting>
 </ArrayOfGlobalGameSetting>
