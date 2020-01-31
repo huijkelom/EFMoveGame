@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
-	[SerializeField]
-	[Range(1, 4)]
 	private int playerCount = default;
 
 	private List<TeamCharacter> teams = new List<TeamCharacter>();
@@ -26,13 +27,24 @@ public class GameManager : MonoBehaviour
 	private TeamCharacter teamPrefab = default;
 	[SerializeField]
 	private AudioSource audioSource = default;
+	[Header("Countdown")]
+	[SerializeField]
+	private TextMeshProUGUI countDownText = default;
+	[SerializeField]
+	private RectTransform countDownButton = default;
+	[SerializeField]
+	private AudioClip countdownBeep = default;
+	[SerializeField]
+	private AudioClip countdownBeepLast = default;
 
 	private int _CurrentPlace = 0;
+	private bool _started = false;
+	private static readonly int Blinking = Animator.StringToHash("Blink");
 
 	private void Start()
 	{
 		playerCount = int.Parse(GlobalGameSettings.GetSetting("Players"));
-		
+
 		for (int i = 0; i < playerCount; i++)
 		{
 			TeamCharacter player = Instantiate(teamPrefab, teamContainer);
@@ -54,6 +66,47 @@ public class GameManager : MonoBehaviour
 			charContainer.GetChild(i).GetComponent<CharacterColor>()
 						 .SetColor(PlayerColourContainer.GetPlayerColour(i + 1));
 		}
+
+		timer.TimerRanOut.AddListener(TimeUp);
+	}
+
+	private void TimeUp()
+	{
+		foreach (TeamCharacter team in teams)
+		{
+			team.Deactivate();
+		}
+
+		countDownText.text = "Time's Up!";
+		countDownButton.gameObject.SetActive(true);
+		countDownButton.GetComponent<Animator>().SetBool(Blinking, true);
+		replayButton.gameObject.SetActive(true);
+	}
+
+	// called through event in scene
+	public void StartGame(int delay)
+	{
+		if (_started) return;
+		_started = true;
+		StartCoroutine(CountDown(delay));
+	}
+
+	public IEnumerator CountDown(int delay)
+	{
+		for (int i = 0; i < delay; i++)
+		{
+			audioSource.PlayOneShot(countdownBeep);
+			countDownText.text = (delay - i).ToString();
+			yield return new WaitForSeconds(1);
+		}
+
+		audioSource.PlayOneShot(countdownBeepLast);
+		countDownButton.gameObject.SetActive(false);
+
+		// Make player buttons interactable
+		foreach (TeamCharacter team in teams) team.Activate();
+
+		timer.StartTimer();
 	}
 
 	private void TeamFinished(TeamCharacter winner)

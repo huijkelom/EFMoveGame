@@ -7,7 +7,6 @@ public class TeamCharacter : MonoBehaviour
 {
 	private int _Team;
 	private Color _Color;
-
 	public Flag Flag { get; private set; }
 	private Animator _Character;
 	private Vector3 _CharacterStart;
@@ -15,21 +14,25 @@ public class TeamCharacter : MonoBehaviour
 	[SerializeField]
 	private int stepCount = 10;
 	private int _Steps = 0;
-
-	public float Progress => (float) _Steps / stepCount;
-
 	public UnityCharacterEvent doneEvent = new UnityCharacterEvent();
 	public UnityEvent hitEvent = new UnityEvent();
-
 	[Header("References")]
 	[SerializeField]
 	private TeamButton button = default;
 	private static readonly int Running = Animator.StringToHash("Running");
 
+	public float Progress => (float) _Steps / stepCount;
+
 	public int teamNumber => _Team;
 	public TeamButton GetButton() => button;
 
 	private Coroutine _RunningRoutine = null;
+
+	public void Activate() => button.GetComponent<CircleCollider2D>().enabled = true;
+	public void Deactivate() => button.GetComponent<CircleCollider2D>().enabled = false;
+
+	public void SetText(string value) => button.SetText(value);
+	public void Win() => doneEvent.Invoke(this);
 
 	public void Hit()
 	{
@@ -43,7 +46,7 @@ public class TeamCharacter : MonoBehaviour
 
 	public IEnumerator MoveCharacter(float duration)
 	{
-		Vector3 startPos  = _Character.transform.position;
+		Vector3 startPos = _Character.transform.position;
 		Vector3 targetPos = Vector3.Lerp(_CharacterStart, _CharacterEnd, Progress);
 
 		_Character.SetBool(Running, true);
@@ -61,25 +64,15 @@ public class TeamCharacter : MonoBehaviour
 
 	public void Init(int player, Animator character, Flag flag)
 	{
-		_Character     = character;
+		_Character = character;
 		_CharacterStart = _Character.transform.position;
-		_CharacterEnd   = new Vector3(-_CharacterStart.x, _CharacterStart.y, _CharacterStart.z);
+		_CharacterEnd = new Vector3(-_CharacterStart.x, _CharacterStart.y, _CharacterStart.z);
 
 		stepCount = Convert.ToInt16(GlobalGameSettings.GetSetting("Steps"));
-		
-		Flag   = flag;
-		_Team  = player;
+
+		Flag = flag;
+		_Team = player;
 		_Color = PlayerColourContainer.GetPlayerColour(_Team + 1);
 		button.Init(this, _Color);
-	}
-
-	public void SetText(string value)
-	{
-		button.SetText(value);
-	}
-
-	public void Win()
-	{
-		doneEvent.Invoke(this);
 	}
 }

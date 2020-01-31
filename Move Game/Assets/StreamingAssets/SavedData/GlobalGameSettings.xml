@@ -2,7 +2,7 @@
 <ArrayOfGlobalGameSetting xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <GlobalGameSetting>
     <Label>Players</Label>
-    <Value>2</Value>
+    <Value>4</Value>
     <PossibleValues>
       <string>1</string>
       <string>2</string>
@@ -22,7 +22,7 @@
   </GlobalGameSetting>
   <GlobalGameSetting>
     <Label>Minutes</Label>
-    <Value>2</Value>
+    <Value>0</Value>
     <PossibleValues>
       <string>0</string>
       <string>1</string>
@@ -37,7 +37,7 @@
   </GlobalGameSetting>
   <GlobalGameSetting>
     <Label>Seconds</Label>
-    <Value>20</Value>
+    <Value>10</Value>
     <PossibleValues>
       <string>0</string>
       <string>10</string>

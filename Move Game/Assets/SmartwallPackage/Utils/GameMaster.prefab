@@ -137,7 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SettingToMake:
   - Label: Players
-    Value: 2
+    Value: 4
     PossibleValues:
     - 1
     - 2
@@ -151,7 +151,7 @@ MonoBehaviour:
     - No
     Default: Yes
   - Label: Minutes
-    Value: 2
+    Value: 0
     PossibleValues:
     - 0
     - 1
@@ -163,7 +163,7 @@ MonoBehaviour:
     - 7
     Default: 1
   - Label: Seconds
-    Value: 20
+    Value: 10
     PossibleValues:
     - 0
     - 10

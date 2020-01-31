@@ -64,13 +64,6 @@ public class GameTimer : MonoBehaviour
 
 	private void Start()
 	{
-		//load time setting from settings file, if there is not Time setting in the file the inspector value is used.
-//		string[] temp = GlobalGameSettings.GetSetting("Playtime").Split(' ');
-//		if (temp.Length > 1)
-//		{
-//			TimeLimit = int.Parse(temp[0]);
-//		}
-
 		int savedTime = 0;
 		if (GlobalGameSettings.GetSetting("Use Time").Equals("No"))
 		{
@@ -89,8 +82,6 @@ public class GameTimer : MonoBehaviour
 		int minutes = (int) (TimeLimit / 60);
 		int seconds = (int) (TimeLimit % 60);
 		LabelOfTimer.text = minutes.ToString("D2") + ":" + seconds.ToString("D2");
-
-		StartTimer();
 	}
 
 	IEnumerator RunTimer()
