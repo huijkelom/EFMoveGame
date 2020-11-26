@@ -27,22 +27,22 @@ public class Flag : MonoBehaviour
 
 	public void SetText(int place, float time)
 	{
-		numberText.text      = place.ToString();
+		numberText.text      = "#"+place.ToString();
 		numberText.faceColor = placeColors[place - 1];
 
 		switch (place)
 		{
 			case 1:
-				numberSuffixText.text = "st";
+				numberSuffixText.text = "#";
 				break;
 			case 2:
-				numberSuffixText.text = "nd";
+				numberSuffixText.text = "#";
 				break;
 			case 3:
-				numberSuffixText.text = "rd";
+				numberSuffixText.text = "#";
 				break;
 			case 4:
-				numberSuffixText.text = "th";
+				numberSuffixText.text = "#";
 				break;
 			default:
 				throw new InvalidEnumArgumentException("Invalid enum argument, can only be 1-4");
